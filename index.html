@@ -505,8 +505,6 @@
             let fieldsToCheck = ['job_category', 'frequency', 'role'];
             
             // 2. 系統功能 (Q1-Q5)
-            for(let i=1; i<=5; i++) fieldsToCheck.push(`q1`); // 修正: 應該是 q1~q5
-            fieldsToCheck = fieldsToCheck.filter(f => f !== 'q1'); // 移除上面的錯誤
             for(let i=1; i<=5; i++) fieldsToCheck.push(`q${i}`);
 
             // 3. 根據身分加入 T 或 S 系列
@@ -521,6 +519,9 @@
                 for(let i=1; i<=5; i++) fieldsToCheck.push(`s${i}`);
             }
 
+            let isFormValid = true;
+            let firstErrorElement = null;
+
             // 開始檢查
             for (const name of fieldsToCheck) {
                 const radios = document.querySelectorAll(`input[name="${name}"]`);
@@ -529,6 +530,7 @@
                     radios.forEach(r => { if(r.checked) isChecked = true; });
 
                     if (!isChecked) {
+                        isFormValid = false;
                         // 找到第一個未填寫的題目容器
                         // 嘗試找最近的 question-container
                         let container = radios[0].closest('.question-container');
@@ -542,24 +544,28 @@
                         if (container) {
                             container.classList.add('error-highlight');
                             
-                            // 計算滾動位置 (扣除 Header 高度約 100px 做緩衝)
-                            const headerOffset = 120;
-                            const elementPosition = container.getBoundingClientRect().top;
-                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                            window.scrollTo({
-                                top: offsetPosition,
-                                behavior: "smooth"
-                            });
+                            // 記錄第一個錯誤元素以便滾動
+                            if (!firstErrorElement) {
+                                firstErrorElement = container;
+                            }
                         }
-                        
-                        // 雖然不想用 alert，但為了雙重提醒還是保留一個非阻斷式的提示比較好，或者直接 return false
-                        alert('您還有題目未完成填寫，系統已自動為您跳轉至該題。');
-                        return false; // 驗證失敗
                     }
                 }
             }
-            return true; // 驗證通過
+
+            if (!isFormValid && firstErrorElement) {
+                 // 計算滾動位置 (扣除 Header 高度約 120px 做緩衝)
+                 const headerOffset = 120;
+                 const elementPosition = firstErrorElement.getBoundingClientRect().top;
+                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                 window.scrollTo({
+                     top: offsetPosition,
+                     behavior: "smooth"
+                 });
+            }
+
+            return isFormValid;
         }
 
         function submitForm(e) {
