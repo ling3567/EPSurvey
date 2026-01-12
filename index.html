@@ -23,14 +23,28 @@
         @keyframes slideDown { from { opacity: 0; transform: scaleY(0); max-height: 0; } to { opacity: 1; transform: scaleY(1); max-height: 1000px; } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
+        /* 自定義 Radio 樣式 - 選中時邊框變色且背景微亮 */
+        .option-label { transition: all 0.2s; }
+        .option-input:checked + .option-label {
+            border-color: #0ea5e9;
+            background-color: #e0f2fe;
+            color: #0284c7;
+            font-weight: 500;
+            box-shadow: 0 0 0 1px #0ea5e9;
+        }
+        /* 特殊色: 護理題 T6 */
+        .option-input-orange:checked + .option-label {
+            border-color: #ea580c;
+            background-color: #ffedd5;
+            color: #c2410c;
+            box-shadow: 0 0 0 1px #ea580c;
+        }
+
         .custom-radio:checked + div { border-color: #0ea5e9; background-color: #e0f2fe; color: #0284c7; }
         .custom-radio:checked + div .radio-dot { background-color: #0ea5e9; border-color: #0ea5e9; }
         
         .hidden { display: none; }
         .section-header { border-left: 6px solid #0ea5e9; padding-left: 1rem; }
-
-        .mobile-table th, .mobile-table td { white-space: nowrap; }
-        .mobile-table td.question-col { white-space: normal; min-width: 200px; }
     </style>
 </head>
 <body class="text-gray-700 antialiased flex flex-col min-h-screen">
@@ -57,7 +71,6 @@
                 感謝您撥冗填寫。<br>您的寶貴意見將是我們持續優化系統的重要動力。
             </p>
             
-            <!-- 動態切換身分按鈕區塊 -->
             <div class="pt-6 border-t border-gray-100">
                 <p id="switchRoleText" class="text-base text-gray-600 mb-4">
                     <!-- 這裡的文字會由 JavaScript 動態產生 -->
@@ -89,72 +102,27 @@
                     <div class="mb-8">
                         <label class="block text-lg font-medium text-gray-800 mb-4">1. 請問您的職類：<span class="text-red-500">*</span></label>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="藥事" class="custom-radio sr-only" required onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>藥事</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="醫事放射" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>醫事放射</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="醫事檢驗" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>醫事檢驗</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="護理" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>護理</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="營養" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>營養</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="呼吸治療" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>呼吸治療</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="聽力" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>聽力</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="物理治療" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>物理治療</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="職能治療" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>職能治療</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="臨床心理" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>臨床心理</div>
-                            </label>
-                            <label class="cursor-pointer relative">
-                                <input type="radio" name="job_category" value="語言治療" class="custom-radio sr-only" onchange="checkT6Visibility()">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>語言治療</div>
-                            </label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="藥事" class="custom-radio sr-only" required onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>藥事</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="醫事放射" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>醫事放射</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="醫事檢驗" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>醫事檢驗</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="護理" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>護理</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="營養" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>營養</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="呼吸治療" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>呼吸治療</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="聽力" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>聽力</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="物理治療" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>物理治療</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="職能治療" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>職能治療</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="臨床心理" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>臨床心理</div></label>
+                            <label class="cursor-pointer relative"><input type="radio" name="job_category" value="語言治療" class="custom-radio sr-only" onchange="checkT6Visibility()"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot flex-shrink-0"></span>語言治療</div></label>
                         </div>
                     </div>
 
                     <div class="mb-8">
                         <label class="block text-lg font-medium text-gray-800 mb-4">2. 平均每週使用 E-Portfolio系統的頻率？<span class="text-red-500">*</span></label>
                         <div class="space-y-3">
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="frequency" value="極少使用" class="custom-radio sr-only" required>
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>極少使用 (每週小於 1 次)</div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="frequency" value="偶爾使用" class="custom-radio sr-only">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>偶爾使用 (每週 1-3 次)</div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="frequency" value="經常使用" class="custom-radio sr-only">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>經常使用 (每週 4-5 次)</div>
-                            </label>
-                            <label class="cursor-pointer relative block">
-                                <input type="radio" name="frequency" value="重度使用" class="custom-radio sr-only">
-                                <div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>重度使用 (每週 6 次以上)</div>
-                            </label>
+                            <label class="cursor-pointer relative block"><input type="radio" name="frequency" value="極少使用" class="custom-radio sr-only" required><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>極少使用 (每週小於 1 次)</div></label>
+                            <label class="cursor-pointer relative block"><input type="radio" name="frequency" value="偶爾使用" class="custom-radio sr-only"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>偶爾使用 (每週 1-3 次)</div></label>
+                            <label class="cursor-pointer relative block"><input type="radio" name="frequency" value="經常使用" class="custom-radio sr-only"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>經常使用 (每週 4-5 次)</div></label>
+                            <label class="cursor-pointer relative block"><input type="radio" name="frequency" value="重度使用" class="custom-radio sr-only"><div class="p-4 border rounded-lg hover:bg-gray-50 transition flex items-center text-base"><span class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 radio-dot"></span>重度使用 (每週 6 次以上)</div></label>
                         </div>
                     </div>
 
@@ -180,30 +148,95 @@
                     </div>
                 </section>
 
-                <!-- 第二部分 -->
+                <!-- 第二部分：卡片式版面 -->
                 <section class="bg-white rounded-xl shadow-md p-6 md:p-8 fade-in" style="animation-delay: 0.1s;">
                     <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 section-header">第二部分：E-Portfolio系統功能與資訊品質</h2>
-                    <div class="overflow-x-auto pb-2">
-                        <table class="w-full text-left border-collapse min-w-[700px] mobile-table">
-                            <thead>
-                                <tr class="text-gray-600 border-b-2 border-gray-100">
-                                    <th class="py-4 pl-2 w-5/12 text-base">題目</th>
-                                    <th class="py-4 text-center w-1/12 text-sm font-normal">非常<br>同意</th>
-                                    <th class="py-4 text-center w-1/12 text-sm font-normal">同意</th>
-                                    <th class="py-4 text-center w-1/12 text-sm font-normal">普通</th>
-                                    <th class="py-4 text-center w-1/12 text-sm font-normal">不同意</th>
-                                    <th class="py-4 text-center w-1/12 text-sm font-normal">非常<br>不同意</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-700">
-                                <!-- Q1-Q5 -->
-                                <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">Q1. 本系統的操作介面簡單清楚，容易上手。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="q1" value="5" class="w-6 h-6 text-sky-600" required></td><td class="text-center"><input type="radio" name="q1" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q1" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q1" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q1" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">Q2. 系統運作穩定，很少出現錯誤訊息或當機。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="q2" value="5" class="w-6 h-6 text-sky-600" required></td><td class="text-center"><input type="radio" name="q2" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q2" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q2" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q2" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">Q3. 系統方便查詢及閱讀課程內容資訊。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="q3" value="5" class="w-6 h-6 text-sky-600" required></td><td class="text-center"><input type="radio" name="q3" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q3" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q3" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q3" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">Q4. 系統能讓我清楚掌握目前的學習/教學進度。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="q4" value="5" class="w-6 h-6 text-sky-600" required></td><td class="text-center"><input type="radio" name="q4" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q4" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q4" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q4" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                <tr class="hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">Q5. 整體而言，我對E-Portfolio系統的功能感到滿意。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="q5" value="5" class="w-6 h-6 text-sky-600" required></td><td class="text-center"><input type="radio" name="q5" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q5" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q5" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="q5" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                            </tbody>
-                        </table>
+                    
+                    <!-- 共用選項模板 -->
+                    <template id="options-template">
+                        <div class="grid grid-cols-1 gap-2 mt-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="" value="5" class="option-input sr-only" required>
+                                <div class="option-label p-3 border rounded-lg text-center hover:bg-gray-50">非常同意</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="" value="4" class="option-input sr-only">
+                                <div class="option-label p-3 border rounded-lg text-center hover:bg-gray-50">同意</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="" value="3" class="option-input sr-only">
+                                <div class="option-label p-3 border rounded-lg text-center hover:bg-gray-50">普通</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="" value="2" class="option-input sr-only">
+                                <div class="option-label p-3 border rounded-lg text-center hover:bg-gray-50">不同意</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="" value="1" class="option-input sr-only">
+                                <div class="option-label p-3 border rounded-lg text-center hover:bg-gray-50">非常不同意</div>
+                            </label>
+                        </div>
+                    </template>
+
+                    <!-- Q1 -->
+                    <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <p class="font-medium text-lg text-gray-800">Q1. 本系統的操作介面簡單清楚，容易上手。<span class="text-red-500">*</span></p>
+                        <!-- 選項直接展開 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                            <label class="cursor-pointer"><input type="radio" name="q1" value="5" class="option-input sr-only" required><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q1" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q1" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q1" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q1" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <p class="font-medium text-lg text-gray-800">Q2. 系統運作穩定，很少出現錯誤訊息或當機。<span class="text-red-500">*</span></p>
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                            <label class="cursor-pointer"><input type="radio" name="q2" value="5" class="option-input sr-only" required><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q2" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q2" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q2" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q2" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <p class="font-medium text-lg text-gray-800">Q3. 系統方便查詢及閱讀課程內容資訊。<span class="text-red-500">*</span></p>
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                            <label class="cursor-pointer"><input type="radio" name="q3" value="5" class="option-input sr-only" required><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q3" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q3" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q3" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q3" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <p class="font-medium text-lg text-gray-800">Q4. 系統能讓我清楚掌握目前的學習/教學進度。<span class="text-red-500">*</span></p>
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                            <label class="cursor-pointer"><input type="radio" name="q4" value="5" class="option-input sr-only" required><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q4" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q4" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q4" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q4" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="mb-0 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <p class="font-medium text-lg text-gray-800">Q5. 整體而言，我對E-Portfolio系統的功能感到滿意。<span class="text-red-500">*</span></p>
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                            <label class="cursor-pointer"><input type="radio" name="q5" value="5" class="option-input sr-only" required><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q5" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q5" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q5" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                            <label class="cursor-pointer"><input type="radio" name="q5" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                        </div>
                     </div>
                 </section>
 
@@ -221,47 +254,155 @@
 
                     <!-- 臨床教師題目區 -->
                     <div id="section-teacher" class="hidden">
-                        <div class="mb-4 bg-teal-50 text-teal-800 px-4 py-2 rounded-lg text-base font-bold inline-block border border-teal-200">【臨床教師填答區】</div>
-                        <div class="overflow-x-auto pb-2">
-                            <table class="w-full text-left border-collapse min-w-[700px] mobile-table">
-                                <thead>
-                                    <tr class="text-gray-600 border-b-2 border-gray-100">
-                                        <th class="py-4 pl-2 w-5/12 text-base">題目</th><th class="py-4 text-center w-1/12 text-sm font-normal">非常<br>同意</th><th class="py-4 text-center w-1/12 text-sm font-normal">同意</th><th class="py-4 text-center w-1/12 text-sm font-normal">普通</th><th class="py-4 text-center w-1/12 text-sm font-normal">不同意</th><th class="py-4 text-center w-1/12 text-sm font-normal">非常<br>不同意</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-gray-700">
-                                    <!-- T1-T7 -->
-                                    <tr class="border-b border-gray-50 hover:bg-teal-50 transition"><td class="py-4 pl-2 font-medium text-base question-col"><span class="q-label">T1.</span> 我清楚知道如何在系統中進行學員評核與回饋。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="t1" value="5" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t1" value="4" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t1" value="3" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t1" value="2" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t1" value="1" class="w-6 h-6 text-teal-600"></td></tr>
-                                    <tr class="border-b border-gray-50 hover:bg-teal-50 transition"><td class="py-4 pl-2 font-medium text-base question-col"><span class="q-label">T2.</span> 在進行評核時，我能順暢地完成評分與送出，不需頻繁尋求協助。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="t2" value="5" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t2" value="4" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t2" value="3" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t2" value="2" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t2" value="1" class="w-6 h-6 text-teal-600"></td></tr>
-                                    <tr class="border-b border-gray-50 hover:bg-teal-50 transition"><td class="py-4 pl-2 font-medium text-base question-col"><span class="q-label">T3.</span> 使用本系統能有效節省我的工作時間（如：教學、管理或評核）。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="t3" value="5" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t3" value="4" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t3" value="3" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t3" value="2" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t3" value="1" class="w-6 h-6 text-teal-600"></td></tr>
-                                    <tr class="border-b border-gray-50 hover:bg-teal-50 transition"><td class="py-4 pl-2 font-medium text-base question-col"><span class="q-label">T4.</span> 系統完整保存了我的教學與評核紀錄，方便日後查閱。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="t4" value="5" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t4" value="4" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t4" value="3" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t4" value="2" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t4" value="1" class="w-6 h-6 text-teal-600"></td></tr>
-                                    <tr class="border-b border-gray-50 hover:bg-teal-50 transition"><td class="py-4 pl-2 font-medium text-base question-col"><span class="q-label">T5.</span> 我指導的學生熟悉E-Portfolio系統的操作。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="t5" value="5" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t5" value="4" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t5" value="3" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t5" value="2" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t5" value="1" class="w-6 h-6 text-teal-600"></td></tr>
-                                    <tr id="row-t6" class="border-b border-gray-50 hover:bg-teal-50 transition hidden bg-orange-50"><td class="py-4 pl-2 font-medium text-base text-orange-900 question-col"><span class="q-label">T6.</span> 對於系統中的「臨床教師定期評量」查詢功能，比傳統方式（紙本）更節省我的工作時間。(護理師專屬)<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="t6" value="5" class="w-6 h-6 text-orange-600"></td><td class="text-center"><input type="radio" name="t6" value="4" class="w-6 h-6 text-orange-600"></td><td class="text-center"><input type="radio" name="t6" value="3" class="w-6 h-6 text-orange-600"></td><td class="text-center"><input type="radio" name="t6" value="2" class="w-6 h-6 text-orange-600"></td><td class="text-center"><input type="radio" name="t6" value="1" class="w-6 h-6 text-orange-600"></td></tr>
-                                    <tr class="hover:bg-teal-50 transition"><td class="py-4 pl-2 font-medium text-base question-col"><span class="q-label">T7.</span> 當我在使用E-Portfolio系統遇到問題時，能獲得有效的協助。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="t7" value="5" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t7" value="4" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t7" value="3" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t7" value="2" class="w-6 h-6 text-teal-600"></td><td class="text-center"><input type="radio" name="t7" value="1" class="w-6 h-6 text-teal-600"></td></tr>
-                                </tbody>
-                            </table>
+                        <div class="mb-6 bg-teal-50 text-teal-800 px-4 py-2 rounded-lg text-base font-bold inline-block border border-teal-200">【臨床教師填答區】</div>
+                        
+                        <!-- T1 -->
+                        <div class="question-block mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800"><span class="q-label">T1.</span> 我清楚知道如何在系統中進行學員評核與回饋。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="t1" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t1" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t1" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t1" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t1" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- T2 -->
+                        <div class="question-block mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800"><span class="q-label">T2.</span> 在進行評核時，我能順暢地完成評分與送出，不需頻繁尋求協助。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="t2" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t2" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t2" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t2" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t2" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- T3 -->
+                        <div class="question-block mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800"><span class="q-label">T3.</span> 使用本系統能有效節省我的工作時間（如：教學、管理或評核）。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="t3" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t3" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t3" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t3" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t3" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- T4 -->
+                        <div class="question-block mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800"><span class="q-label">T4.</span> 系統完整保存了我的教學與評核紀錄，方便日後查閱。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="t4" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t4" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t4" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t4" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t4" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- T5 -->
+                        <div class="question-block mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800"><span class="q-label">T5.</span> 我指導的學生熟悉E-Portfolio系統的操作。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="t5" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t5" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t5" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t5" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t5" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- T6 (護理專屬) -->
+                        <div id="card-t6" class="question-block mb-8 p-4 bg-orange-50 rounded-xl border border-orange-200 hidden">
+                            <p class="font-medium text-lg text-orange-900"><span class="q-label">T6.</span> 對於系統中的「臨床教師定期評量」查詢功能，比傳統方式（紙本）更節省我的工作時間。(護理師專屬)<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="t6" value="5" class="option-input-orange sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-orange-100">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t6" value="4" class="option-input-orange sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-orange-100">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t6" value="3" class="option-input-orange sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-orange-100">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t6" value="2" class="option-input-orange sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-orange-100">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t6" value="1" class="option-input-orange sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-orange-100">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- T7 -->
+                        <div class="question-block mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800"><span class="q-label">T7.</span> 當我在使用E-Portfolio系統遇到問題時，能獲得有效的協助。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="t7" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t7" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t7" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t7" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="t7" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- 學員題目區 -->
                     <div id="section-student" class="hidden">
-                        <div class="mb-4 bg-sky-50 text-sky-800 px-4 py-2 rounded-lg text-base font-bold inline-block border border-sky-200">【學員填答區】</div>
-                        <div class="overflow-x-auto pb-2">
-                            <table class="w-full text-left border-collapse min-w-[700px] mobile-table">
-                                <thead>
-                                    <tr class="text-gray-600 border-b-2 border-gray-100">
-                                        <th class="py-4 pl-2 w-5/12 text-base">題目</th><th class="py-4 text-center w-1/12 text-sm font-normal">非常<br>同意</th><th class="py-4 text-center w-1/12 text-sm font-normal">同意</th><th class="py-4 text-center w-1/12 text-sm font-normal">普通</th><th class="py-4 text-center w-1/12 text-sm font-normal">不同意</th><th class="py-4 text-center w-1/12 text-sm font-normal">非常<br>不同意</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-gray-700">
-                                    <!-- S1-S5 -->
-                                    <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">S1. 透過系統，我能順利查閱老師的評核結果與具體回饋。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="s1" value="5" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s1" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s1" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s1" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s1" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                    <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">S2. 系統完整保存了我的學習歷程與評核紀錄，方便我隨時回顧與檢視學習成果。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="s2" value="5" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s2" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s2" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s2" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s2" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                    <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">S3. 透過系統，我能清楚掌握目前的完訓進度與待辦項目。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="s3" value="5" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s3" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s3" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s3" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s3" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                    <tr class="border-b border-gray-50 hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">S4. 我的授課老師熟悉E-Portfolio系統的操作。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="s4" value="5" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s4" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s4" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s4" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s4" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                    <tr class="hover:bg-sky-50 transition"><td class="py-4 pl-2 font-medium text-base question-col">S5. 當我在使用E-Portfolio系統遇到問題時，能獲得有效的協助。<span class="text-red-500">*</span></td><td class="text-center"><input type="radio" name="s5" value="5" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s5" value="4" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s5" value="3" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s5" value="2" class="w-6 h-6 text-sky-600"></td><td class="text-center"><input type="radio" name="s5" value="1" class="w-6 h-6 text-sky-600"></td></tr>
-                                </tbody>
-                            </table>
+                        <div class="mb-6 bg-sky-50 text-sky-800 px-4 py-2 rounded-lg text-base font-bold inline-block border border-sky-200">【學員填答區】</div>
+                        
+                        <!-- S1 -->
+                        <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800">S1. 透過系統，我能順利查閱老師的評核結果與具體回饋。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="s1" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s1" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s1" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s1" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s1" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- S2 -->
+                        <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800">S2. 系統完整保存了我的學習歷程與評核紀錄，方便我隨時回顧與檢視學習成果。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="s2" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s2" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s2" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s2" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s2" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- S3 -->
+                        <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800">S3. 透過系統，我能清楚掌握目前的完訓進度與待辦項目。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="s3" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s3" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s3" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s3" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s3" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- S4 -->
+                        <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800">S4. 我的授課老師熟悉E-Portfolio系統的操作。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="s4" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s4" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s4" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s4" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s4" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
+                        </div>
+
+                        <!-- S5 -->
+                        <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="font-medium text-lg text-gray-800">S5. 當我在使用E-Portfolio系統遇到問題時，能獲得有效的協助。<span class="text-red-500">*</span></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-3">
+                                <label class="cursor-pointer"><input type="radio" name="s5" value="5" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s5" value="4" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s5" value="3" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">普通</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s5" value="2" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">不同意</div></label>
+                                <label class="cursor-pointer"><input type="radio" name="s5" value="1" class="option-input sr-only"><div class="option-label p-3 border bg-white rounded-lg text-center hover:bg-gray-50">非常不同意</div></label>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -328,16 +469,16 @@
         function checkT6Visibility() {
             const job = document.querySelector('input[name="job_category"]:checked')?.value;
             const role = document.querySelector('input[name="role"]:checked')?.value;
-            const t6Row = document.getElementById('row-t6');
-            const t6Inputs = t6Row.querySelectorAll('input[type="radio"]');
+            const t6Card = document.getElementById('card-t6'); // Changed from row-t6 to card-t6
+            const t6Inputs = t6Card.querySelectorAll('input[type="radio"]');
 
             if (role === '臨床教師' && job === '護理') {
-                t6Row.classList.remove('hidden');
-                t6Row.classList.add('slide-down'); 
+                t6Card.classList.remove('hidden');
+                t6Card.classList.add('slide-down'); 
                 t6Inputs.forEach(input => input.required = true);
             } else {
-                t6Row.classList.add('hidden');
-                t6Row.classList.remove('slide-down');
+                t6Card.classList.add('hidden');
+                t6Card.classList.remove('slide-down');
                 t6Inputs.forEach(input => {
                     input.required = false;
                     input.checked = false;
@@ -348,7 +489,8 @@
         }
 
         function updateTeacherQuestionNumbers() {
-            const visibleLabels = document.querySelectorAll('#section-teacher tbody tr:not(.hidden) .q-label');
+            // Updated selector for new card structure
+            const visibleLabels = document.querySelectorAll('#section-teacher .question-block:not(.hidden) .q-label');
             visibleLabels.forEach((label, index) => {
                 label.textContent = `T${index + 1}.`;
             });
@@ -372,7 +514,6 @@
             else document.getElementById('part3-placeholder').classList.remove('hidden');
         });
 
-        // 修改後的送出函式：包含動態切換身分邏輯
         function submitForm(e) {
             e.preventDefault();
             
@@ -392,15 +533,12 @@
             const form = document.getElementById('surveyForm');
             const formData = new FormData(form);
             
-            // 取得目前填答的身分
             const currentRole = formData.get('role');
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
-                    // 隱藏表單區塊與引言
                     document.getElementById('surveyContainer').classList.add('hidden');
                     
-                    // 動態設定成功頁面的文字與按鈕
                     const switchText = document.getElementById('switchRoleText');
                     const switchBtnText = document.getElementById('switchRoleBtnText');
                     const switchBtn = document.getElementById('switchRoleBtn');
@@ -408,16 +546,13 @@
                     if (currentRole === '臨床教師') {
                         switchText.innerHTML = '若您同時具備 <span class="font-bold text-sky-600">學員</span> 身分，歡迎切換身分再次填寫。';
                         switchBtnText.innerText = '以學員身分再次填寫';
-                        // 設定按鈕點擊事件，傳入目標身分 '學員'
                         switchBtn.onclick = function() { resetForNewRole('學員'); };
                     } else {
                         switchText.innerHTML = '若您同時具備 <span class="font-bold text-sky-600">臨床教師</span> 身分，歡迎切換身分再次填寫。';
                         switchBtnText.innerText = '以臨床教師身分再次填寫';
-                        // 設定按鈕點擊事件，傳入目標身分 '臨床教師'
                         switchBtn.onclick = function() { resetForNewRole('臨床教師'); };
                     }
 
-                    // 顯示成功頁面
                     const successMessage = document.getElementById('successMessage');
                     successMessage.classList.remove('hidden');
                     successMessage.classList.add('scale-in');
@@ -426,7 +561,6 @@
 
                     btn.disabled = false;
                     btn.innerText = originalText;
-                    // 注意：這裡不執行 form.reset()，以便保留基本資料
                 })
                 .catch(error => {
                     console.error('Error!', error.message);
@@ -436,17 +570,14 @@
                 });
         }
 
-        // 修改：支援傳入目標身分以自動切換
         function resetForNewRole(targetRole) {
             document.getElementById('successMessage').classList.add('hidden');
             document.getElementById('successMessage').classList.remove('scale-in');
             document.getElementById('surveyContainer').classList.remove('hidden');
 
-            // 1. 清空身分選擇 (稍後會重新設定)
             const roleRadios = document.querySelectorAll('input[name="role"]');
             roleRadios.forEach(radio => radio.checked = false);
 
-            // 2. 清空第二部分以後的答案
             const inputsToClear = document.querySelectorAll(
                 'input[name^="q"], input[name^="t"], input[name^="s"], textarea'
             );
@@ -458,20 +589,16 @@
                 }
             });
 
-            // 3. 如果有指定目標身分，自動選取並展開
             if (targetRole) {
                 const targetRadio = document.querySelector(`input[name="role"][value="${targetRole}"]`);
                 if (targetRadio) {
                     targetRadio.checked = true;
-                    // 觸發切換邏輯
                     togglePart3(); 
                 }
             } else {
-                // 若無指定，則重置顯示
                 togglePart3();
             }
 
-            // 4. 滾動到 Q3 位置
             const q3Section = document.getElementById('q3-section');
             q3Section.scrollIntoView({ behavior: 'smooth', block: 'center' });
             q3Section.classList.add('bg-yellow-50');
